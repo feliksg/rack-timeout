@@ -31,6 +31,13 @@ To use a custom timeout, create an initializer file:
 Rack::Timeout.timeout = 5  # seconds
 ```
 
+Or use a proc for a dynamic timeout:
+
+```ruby
+# config/initializers/timeout.rb
+Rack::Timeout.timeout = proc{|env| env["REQUEST_PATH"].start_with?("/admin") ? 15 : 5 }
+```
+
 ### Rails apps, manually
 
 You'll need to do this if you removed `Rack::Runtime` from the middleware stack, or if you want to determine yourself where in the stack `Rack::Timeout` gets inserted.
